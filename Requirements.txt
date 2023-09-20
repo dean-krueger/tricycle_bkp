@@ -1,0 +1,77 @@
+This document outlines the basic requirements of any new features which must be added to the Cyclus ecosystem in order to achieve the project goals outlined in the
+README file.
+
+Syncing to GitHub:
+The Github sycning requirement is that this repo, which is stored locally at ~/Wisconsin/cyclus_fusion be pushed to GitHub every Friday whether changes have been
+made or not. This will ensure that in the worst case scenario, the most progress I will lose is 1 weeks worth. Pushes to the GitHub repo may be done more frequently
+as needed.
+
+Desired Use Case:
+The ultimate use case for this module will be to aid in answering some of the basic questions in the fusion fuel cycle space, such as:
+
+1. Will fusion growth be supply limited?
+2. What is the supply vs demand for tritium based on different input scenarios?
+        a. What happens to tritium supply when planned fusion projects such as DEMO or ITER come online?
+        b. What doubling times should the industry be aiminig for with their designs beyond simply achieving self sufficiecy?
+            i. Is it worth getting to TBR=1.1 instead of TBR=1.05 in order to increase doubling time if CANDU or other fission reactors may be options for tritium 
+               startup supply/reserve supplies?
+        c. How does the lifecycle of the CANDU fleet impact tritium availble to start up new fusion reactor projects?
+3. How much could tritium startup inventory add to initial reactor construction costs?
+4. Would it be worth fission companies pursuing tritium breeding based on potential future demands?
+
+
+Additionally, the use case should be able to:
+
+1. Set up a generic system that others can use and demonstrate the idea rather than making a statement about certain specific fusion designs
+2. Be used by companies to make blanket or overall design decisions. 
+
+Desired User Experience:
+
+
+Inputs:
+There are three sets of inputs which should be available to the user: Default, Custom, and Optional. The Default inputs list should allow the user to give relatively
+broad definitions of their reactor and have some of the finer details of operation handled on the backend via currently accepted values and methods (obtained from
+Abdou et al. 2021), while the Custom inputs should be toggleable and allow the user to be much more specific about the reactor physics. The optional inputs will be 
+those which make sense to include, but do not affect reactor behavior (such as name, latitude, longitude, etc).
+
+    Default Inputs:
+    1. Power
+    2. TBR
+    3. Availability Factor
+    4. Tritium Burn Rate
+    5. Input Recipe?
+    6. Output Recipe?
+    7. Startup Inventory
+    8. Reserve Inventory
+
+    Custom Inputs:
+    1. Tritium Burn Fraction
+    2. Fueling Efficiency
+    3. Injection Rate
+    5. Fueling Efficiency
+    6. Doubling Time? (is this just a function of TBR?)
+    7. Reserve Time
+
+    Optional Inputs:
+    1. Name
+    2. Longitude
+    3. Latitude
+
+Outputs:
+The basic outputs of a fusion reactor, to my knowledge, are power, and excess tritium. For the purposes of this model, it may be enough to simply output tritium
+produced in excess of some threshold (
+
+
+Interactions between Inputs and Outputs:
+
+
+Interactions with other Modules within Project: 
+
+
+Interactions with other Modules in the Cyclus Ecosystem:
+
+
+
+
+Bibliograpy:
+(Abdou et al. 2021) -- "Physics and Technology considerations for the deuterium-tritium fuel cycle and conditions for tritium fuel self sufficiency"

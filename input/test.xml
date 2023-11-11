@@ -2,9 +2,10 @@
 
     <!--Control Section: MUST BE FIRST-->
     <control>
-        <duration>48</duration>
+        <duration>400</duration>
         <startmonth>1</startmonth>
         <startyear>2000</startyear>
+        <decay>lazy</decay>
     </control>
 
     <!--Name all the archetypes we want to use-->
@@ -38,7 +39,7 @@
         <name>T</name>
         <basis>mass</basis>
         <nuclide>
-            <id>01003</id>
+            <id>10030000</id>
             <comp>1.00</comp>
         </nuclide>
     </recipe>
@@ -49,7 +50,7 @@
         <config>
             <FusionReactor>
                 <fusion_power>300</fusion_power>
-                <TBR>1.05</TBR>
+                <TBR>1.0</TBR>
                 <reserve_inventory>6</reserve_inventory>
                 <startup_inventory>2.121</startup_inventory>
                 <fuel_incommod>Tritium</fuel_incommod>

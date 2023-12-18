@@ -1,0 +1,2 @@
+/home/dean/.local/lib/cyclus/libfusion.so
+/home/dean/.local/bin/fusion_unit_tests

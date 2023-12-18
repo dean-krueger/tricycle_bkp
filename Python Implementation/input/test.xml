@@ -1,0 +1,107 @@
+<simulation>
+
+    <!--Control Section: MUST BE FIRST-->
+    <control>
+        <duration>40</duration>
+        <startmonth>1</startmonth>
+        <startyear>2000</startyear>
+        <!--<decay>lazy</decay>-->
+    </control>
+
+    <!--Name all the archetypes we want to use-->
+    <archetypes>
+        <spec>
+            <lib>tut.agents</lib>
+            <name>FusionReactor</name>
+        </spec>
+        <spec>
+            <lib>cycamore</lib>
+            <name>Source</name>
+        </spec>
+        <spec>
+            <lib>agents</lib>
+            <name>NullInst</name>
+        </spec>
+        <spec>
+            <lib>agents</lib>
+            <name>NullRegion</name>
+        </spec>
+    </archetypes>
+
+     <!--Start of the Commodities Section-->
+     <commodity>
+        <name>spent_fuel</name>
+        <solution_priority>1.0</solution_priority>
+    </commodity>
+    <commodity>
+        <name>cooled_spent_fuel</name>
+        <solution_priority>1.0</solution_priority>
+    </commodity>
+    <commodity>
+        <name>Tritium</name>
+        <solution_priority>1.0</solution_priority>
+    </commodity>
+
+    <!--Start of the Recipe Section-->
+    <recipe>
+        <name>T</name>
+        <basis>mass</basis>
+        <nuclide>
+            <id>10030000</id>
+            <comp>1</comp>
+        </nuclide>
+    </recipe>
+
+    <!--Add our test facility-->
+    <facility>
+        <name>TestReactor</name>
+        <config>
+            <FusionReactor>
+                <fusion_power>300</fusion_power>
+                <TBR>1.03</TBR>
+                <reserve_inventory>6</reserve_inventory>
+                <startup_inventory>2.121</startup_inventory>
+                <fuel_incommod>Tritium</fuel_incommod>
+                <fuel_inrecipe>T</fuel_inrecipe>
+            </FusionReactor>
+        </config>
+    </facility>
+
+    <facility>
+        <name>CANDU</name>
+        <config>
+            <Source>
+                <outcommod>Tritium</outcommod>
+            </Source>
+        </config>
+    </facility>
+
+    
+
+    <!--Make a region to hold our Institution-->
+    <region>
+        <name>OneRegion</name>
+        <config>
+            <NullRegion/>
+        </config>
+
+        <!--Make an institution within OneRegion to hold our test facility-->
+        <institution>
+            <initialfacilitylist>
+                <entry>
+                    <prototype>TestReactor</prototype>
+                    <number>1</number>
+                </entry>
+                <entry>
+                    <prototype>CANDU</prototype>
+                    <number>1</number>
+                </entry>
+            </initialfacilitylist>
+            <name>OneInst</name>
+            <config>
+                <NullInst/>
+            </config>
+        </institution>
+    </region>
+
+</simulation>

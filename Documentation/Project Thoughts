@@ -1,0 +1,74 @@
+The basic outline of the project I've been given is to do the FFH fuel cycle analysis proposed in Matthew's prelim. This includes:
+    * Cost of reprocessing/recycling Pu in LWRs (I assume this is going to need some code other than Cyclus? TECHTEST?)
+    * Political aspects (What does this mean?)
+    * Siting Considerations (for the FFH systems? Is this a "consult the NRC guidelines" type issue?)
+    * How do some design decisions affect market (thsi feels like the real meat of the probem):
+        * Size/Burnup Rate (of FFH system? Of Fusion Reactors? Of LWRs producing the Actinide fuel?)
+        * Fuel Type (Inculsion of Np vs Just Cm+Am?, how do we look at this, economically, primarily in terms of HLW 
+          repository with a little bit of selling off products sprinkled in?)
+        * Reprocessing Rate (reprocessing of spent LWR fuel into FFH fuel? Reprocessing of tritium into Fusion Fuel?)
+        * TBR in different fusion scenarios (Market based deployment simulation like in "Huff et al. 2014"?)
+
+
+Project's Major Questions:
+* "How does the introduction of one or more FFH systems affect the overall fuel cycle in NA economically with respect 
+   to HLW repository availability?"
+
+or
+
+* "How does the introduction of one or more FFH systems affect the availability of Tritium for the deployment of power 
+   plant scale fusion devices in NA, compared to the current fuel cycle in which Tritium comes primarily from CANDU 
+   reactors?"
+
+Project's Minor Questions:
+* "How does the introduction of one or more FFH systems affect the market for fuel reprocessing facilities, and what 
+   does the cost/benefit analysis look like with respect to CAPEX of a reprocessing plant vs sale of MOX fuel + 
+   secondaries?"
+* "What does the major quesiton's answer look like over a parametric study of the four qualities listed above (Size/
+   Burnup rate, Fuel Type, Reprocessing Rate, and TBR in different fusion scenarios)?"
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------
+
+Project Goal (Minimum Viable Product):
+* Produce a cyclus model that is capable of handling Tritium (Decay, Hold Up Time, Losses, TBR), Fusion Availability 
+  Factor (beyond just lowering the power by 1-AF), CANDUs as a Tritium source, and ITER as a Tritium sink. 
+
+    * Will likely need to introduce a new "Fusion" Facility which is tied to a tritium "Storage" facility like the 
+      commodity converter facility from "Extensions to the CYCLUS Ecosystem in Support of Market-Driven Transition 
+      Capability" (Huff et al. 2014)
+        * Fusion Facility will request tritium from the storage facility preferentially, storage facility will request
+          it from the broader market
+        * Storage may need to "manually" decay the tritium
+            * Is this reasonable? Does tritium live anywhere else for long periods of time which makes this invalid?
+        * Fusion Facility will need to implement the TBR as one of its variables. It should request trtium from storage
+          and then return tritium equal to T_requested * TBR to storage. 
+        * Storage may need to offload excess tritium when it reaches some threshold? Maybe the Institution builds a new
+          fusion reactor whenever there's enough excess, or alternatively we implement some sort of long-term non-
+          linked storage facility for extra T?
+
+Project Goal (Sucessful Product):
+* Use the cyclus model from the MVP to make a model of the expansion of fusion power with respect to things like TBR, 
+  CANDU breeding.
+* Answer: How many CANDUs do you need to support a Fusion fleet of N GW of installed capacity?
+
+Project Goal (Stretch Goal):
+* Can we use the FFH to boost the fusion Fuel Cycle as modeled in the Sucessful Product goal?
+
+
+
+Potentially Useful Inputs for the Fusion System wrt tritium:
+    * Tritium Burn Rate (kg/day)
+        * Do we want to break this out into burn fraction * fueling efficiency * Injection rate? Probably not?
+            * Are these values useful elsewhere?
+            * Reserve inventory required is reserve time * fraction of supply chain out / Injection rate...
+            * I think this is too complicated. We want to be able to play around with different reserve sizes, and 
+              leave it to the operator to ensure that their numbers are physical. 
+    * Reserve Time (h)
+        * Tritium Burn Rate and Reserve Time combine to make Tritium Reserve Storage (kg)
+    * Tritium Start-up inventory (How much tritium do you need on hand to start a reactor as a function of power?)
+    * Tritium Breeding Ratio
+    * Power?

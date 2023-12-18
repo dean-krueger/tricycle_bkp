@@ -1,0 +1,10 @@
+*Have a concept of how much tritium is "In the reactor"
+*Focus only on Li-6 in the initial implementation
+    *Later on Li-7 is going to be important
+* ask matthew about what the function of Li Enrichment looks like
+
+
+* have two separate types of Li blanket handlign: one where you top up, and one where you fully discharge and then    
+  replcae.
+* make a flow chart for next meeting about the "tritium from nowhere" question
+* Submit a PR to review for later

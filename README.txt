@@ -2,12 +2,16 @@ This repo holds the work I am doing for my Masters Thesis at the University of W
 
 
 Included:
-* Requirements.pdf -- A document outlining broad requirements for the fusion power plant archetype which will be added to Cyclus. 
-* Design.txt -- A document which takes the project requirements and specifies how they are to be implemented as a Cyclus archetype. This document is much more specific than the Requirements document.
-                    
+* Documentation:
+    * Requirements.pdf -- A document outlining broad requirements for the fusion power plant archetype which will be added to Cyclus. 
+    * Design.txt -- A document which takes the project requirements and specifies how they are to be implemented as a Cyclus archetype. This document is much more specific than the Requirements document.
+* Python Implementation:
+    * First pass at implementing the agent in python (failed)
+* Fusion:
+    * C++ Implementation of the agent (WIP)
 
 
 How to use this repo:
-TBD
+TBD 
 
 

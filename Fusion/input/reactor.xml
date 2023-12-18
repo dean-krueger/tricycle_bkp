@@ -1,0 +1,63 @@
+<simulation>
+  <control>
+    <duration>10</duration>
+    <startmonth>1</startmonth>
+    <startyear>2000</startyear>
+  </control>
+
+  <archetypes>
+    <spec><lib>fusion</lib><name>Reactor</name></spec>
+    <spec><lib>agents</lib><name>NullInst</name></spec>
+    <spec><lib>agents</lib><name>NullRegion</name></spec>
+  </archetypes>
+
+    <!--Start of the Commodities Section-->
+  <commodity>
+    <name>Tritium</name>
+    <solution_priority>1.0</solution_priority>
+  </commodity>
+
+
+  <!--Start of the Recipe Section-->
+  <recipe>
+    <name>T</name>
+    <basis>mass</basis>
+    <nuclide>
+        <id>10030000</id>
+        <comp>1</comp>
+    </nuclide>
+  </recipe>
+
+
+
+
+  <facility>
+    <name>Test Reactor</name>
+    <config>
+      <Reactor>
+        <fusion_power>300</fusion_power>
+        <TBR>1.05</TBR>
+        <reserve_inventory>6</reserve_inventory>
+        <startup_inventory>2.121</startup_inventory>
+        <fuel_incommod>Tritium</fuel_incommod>
+        <fuel_inrecipe>T</fuel_inrecipe>
+      </Reactor>
+    </config>
+  </facility>
+
+  <region>
+    <name>OneRegion</name>
+    <config> <NullRegion /> </config>
+    <institution>
+      <name>OneInst</name>
+      <initialfacilitylist>
+        <entry>
+          <prototype>Test Reactor</prototype>
+          <number>1</number>
+        </entry>
+      </initialfacilitylist>
+      <config> <NullInst /> </config>
+    </institution>
+  </region>
+
+</simulation>

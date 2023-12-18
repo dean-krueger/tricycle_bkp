@@ -1,0 +1,16 @@
+/home/dean/Wisconsin/cyclus_fusion/Fusion/build/CMakeFiles/uninstall.dir
+/home/dean/Wisconsin/cyclus_fusion/Fusion/build/CMakeFiles/edit_cache.dir
+/home/dean/Wisconsin/cyclus_fusion/Fusion/build/CMakeFiles/rebuild_cache.dir
+/home/dean/Wisconsin/cyclus_fusion/Fusion/build/CMakeFiles/list_install_components.dir
+/home/dean/Wisconsin/cyclus_fusion/Fusion/build/CMakeFiles/install.dir
+/home/dean/Wisconsin/cyclus_fusion/Fusion/build/CMakeFiles/install/local.dir
+/home/dean/Wisconsin/cyclus_fusion/Fusion/build/CMakeFiles/install/strip.dir
+/home/dean/Wisconsin/cyclus_fusion/Fusion/build/src/CMakeFiles/fusion-sources.dir
+/home/dean/Wisconsin/cyclus_fusion/Fusion/build/src/CMakeFiles/fusion.dir
+/home/dean/Wisconsin/cyclus_fusion/Fusion/build/src/CMakeFiles/fusion_unit_tests.dir
+/home/dean/Wisconsin/cyclus_fusion/Fusion/build/src/CMakeFiles/edit_cache.dir
+/home/dean/Wisconsin/cyclus_fusion/Fusion/build/src/CMakeFiles/rebuild_cache.dir
+/home/dean/Wisconsin/cyclus_fusion/Fusion/build/src/CMakeFiles/list_install_components.dir
+/home/dean/Wisconsin/cyclus_fusion/Fusion/build/src/CMakeFiles/install.dir
+/home/dean/Wisconsin/cyclus_fusion/Fusion/build/src/CMakeFiles/install/local.dir
+/home/dean/Wisconsin/cyclus_fusion/Fusion/build/src/CMakeFiles/install/strip.dir

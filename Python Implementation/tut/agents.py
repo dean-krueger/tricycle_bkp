@@ -121,6 +121,7 @@ class FusionReactor(Facility):
             self.startup(self.startup_inventory, self.reserve_inventory)
         else:
             #Operate the Reactor    
+            #Operate the Reactor    
             self.operate_reactor(self.TBR, self.burn_rate)
     
             #Decay:

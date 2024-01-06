@@ -58,12 +58,21 @@ class Reactor : public cyclus::Facility  {
     cycpp_shape_fuel_incommod = std::vector<int>(rawcycpp_shape_fuel_incommod, rawcycpp_shape_fuel_incommod + 1);
     int rawcycpp_shape_fuel_inrecipe[1] = {-1};
     cycpp_shape_fuel_inrecipe = std::vector<int>(rawcycpp_shape_fuel_inrecipe, rawcycpp_shape_fuel_inrecipe + 1);
+    int rawcycpp_shape_tritium_core[2] = {-1, -1};
+    cycpp_shape_tritium_core = std::vector<int>(rawcycpp_shape_tritium_core, rawcycpp_shape_tritium_core + 2);
+    int rawcycpp_shape_tritium_storage[2] = {-1, -1};
+    cycpp_shape_tritium_storage = std::vector<int>(rawcycpp_shape_tritium_storage, rawcycpp_shape_tritium_storage + 2);
+    int rawcycpp_shape_helium_storage[2] = {-1, -1};
+    cycpp_shape_helium_storage = std::vector<int>(rawcycpp_shape_helium_storage, rawcycpp_shape_helium_storage + 2);
     fusion_power = m->fusion_power;
     TBR = m->TBR;
     reserve_inventory = m->reserve_inventory;
     startup_inventory = m->startup_inventory;
     fuel_incommod = m->fuel_incommod;
     fuel_inrecipe = m->fuel_inrecipe;
+    tritium_core.capacity(m->tritium_core.capacity());
+    tritium_storage.capacity(m->tritium_storage.capacity());
+    helium_storage.capacity(m->helium_storage.capacity());
   };
 #line 46 "/home/dean/Wisconsin/cyclus_fusion/Fusion/src/reactor.h"
 
@@ -81,6 +90,12 @@ class Reactor : public cyclus::Facility  {
     cycpp_shape_fuel_incommod = std::vector<int>(rawcycpp_shape_fuel_incommod, rawcycpp_shape_fuel_incommod + 1);
     int rawcycpp_shape_fuel_inrecipe[1] = {-1};
     cycpp_shape_fuel_inrecipe = std::vector<int>(rawcycpp_shape_fuel_inrecipe, rawcycpp_shape_fuel_inrecipe + 1);
+    int rawcycpp_shape_tritium_core[2] = {-1, -1};
+    cycpp_shape_tritium_core = std::vector<int>(rawcycpp_shape_tritium_core, rawcycpp_shape_tritium_core + 2);
+    int rawcycpp_shape_tritium_storage[2] = {-1, -1};
+    cycpp_shape_tritium_storage = std::vector<int>(rawcycpp_shape_tritium_storage, rawcycpp_shape_tritium_storage + 2);
+    int rawcycpp_shape_helium_storage[2] = {-1, -1};
+    cycpp_shape_helium_storage = std::vector<int>(rawcycpp_shape_helium_storage, rawcycpp_shape_helium_storage + 2);
     cyclus::QueryResult qr = b->Query("Info", NULL);
     fusion_power = qr.GetVal<double>("fusion_power");
     TBR = qr.GetVal<double>("TBR");
@@ -88,6 +103,9 @@ class Reactor : public cyclus::Facility  {
     startup_inventory = qr.GetVal<double>("startup_inventory");
     fuel_incommod = qr.GetVal<std::string>("fuel_incommod");
     fuel_inrecipe = qr.GetVal<std::string>("fuel_inrecipe");
+    tritium_core.capacity(1000);
+    tritium_storage.capacity(1000);
+    helium_storage.capacity(1000);
   };
 
   virtual void InfileToDb(cyclus::InfileTree* tree, cyclus::DbInit di) {
@@ -104,6 +122,12 @@ class Reactor : public cyclus::Facility  {
     cycpp_shape_fuel_incommod = std::vector<int>(rawcycpp_shape_fuel_incommod, rawcycpp_shape_fuel_incommod + 1);
     int rawcycpp_shape_fuel_inrecipe[1] = {-1};
     cycpp_shape_fuel_inrecipe = std::vector<int>(rawcycpp_shape_fuel_inrecipe, rawcycpp_shape_fuel_inrecipe + 1);
+    int rawcycpp_shape_tritium_core[2] = {-1, -1};
+    cycpp_shape_tritium_core = std::vector<int>(rawcycpp_shape_tritium_core, rawcycpp_shape_tritium_core + 2);
+    int rawcycpp_shape_tritium_storage[2] = {-1, -1};
+    cycpp_shape_tritium_storage = std::vector<int>(rawcycpp_shape_tritium_storage, rawcycpp_shape_tritium_storage + 2);
+    int rawcycpp_shape_helium_storage[2] = {-1, -1};
+    cycpp_shape_helium_storage = std::vector<int>(rawcycpp_shape_helium_storage, rawcycpp_shape_helium_storage + 2);
     cyclus::InfileTree* sub = tree->SubTree("config/*");
     int i;
     int n;
@@ -210,9 +234,17 @@ class Reactor : public cyclus::Facility  {
       ":\"Fresh Fuel recipe\",\"tooltip\":\"Fresh fuel "
       "recipe\",\"uilabel\":\"Fuel Input Recipe\",\"type\":\"std:"
       ":string\",\"index\":5,\"shape\":[-"
-      "1],\"alias\":\"fuel_inrecipe\"}},\"doc\":\"A stub "
-      "facility is provided as a skeleton for the design "
-      "of new facility agents.\"}", root);
+      "1],\"alias\":\"fuel_inrecipe\"},\"tritium_core\":{\"capac"
+      "ity\":\"1000\",\"type\":[\"cyclus::toolkit::ResBuf\",\"cyc"
+      "lus::Material\"],\"index\":6,\"shape\":[-1,-"
+      "1]},\"tritium_storage\":{\"capacity\":\"1000\",\"type\":[\""
+      "cyclus::toolkit::ResBuf\",\"cyclus::Material\"],\"inde"
+      "x\":7,\"shape\":[-1,-"
+      "1]},\"helium_storage\":{\"capacity\":\"1000\",\"type\":[\"c"
+      "yclus::toolkit::ResBuf\",\"cyclus::Material\"],\"index"
+      "\":8,\"shape\":[-1,-1]}},\"doc\":\"A stub facility is "
+      "provided as a skeleton for the design of new "
+      "facility agents.\"}", root);
     if (!parsed_ok) {
       throw cyclus::ValueError("failed to parse annotations for fusion::Reactor.");
     }
@@ -220,10 +252,20 @@ class Reactor : public cyclus::Facility  {
   };
 
   virtual void InitInv(cyclus::Inventories& inv) {
+    tritium_core.Push(inv["tritium_core"]);
+        tritium_storage.Push(inv["tritium_storage"]);
+        helium_storage.Push(inv["helium_storage"]);
+    
   };
 
   virtual cyclus::Inventories SnapshotInv() {
     cyclus::Inventories invs;
+    invs["tritium_core"] = tritium_core.PopNRes(tritium_core.count());
+    tritium_core.Push(invs["tritium_core"]);
+    invs["tritium_storage"] = tritium_storage.PopNRes(tritium_storage.count());
+    tritium_storage.Push(invs["tritium_storage"]);
+    invs["helium_storage"] = helium_storage.PopNRes(helium_storage.count());
+    helium_storage.Push(invs["helium_storage"]);
     return invs;
   };
 
@@ -253,9 +295,9 @@ class Reactor : public cyclus::Facility  {
   virtual void Tock();
 
 
-//----------------------------------------//
-//           State Variables              //
-//----------------------------------------//
+//-----------------------------------------------------------//
+//                     State Variables                       //
+//-----------------------------------------------------------//
 
   #pragma cyclus var {     "doc": "Nameplate fusion power of the reactor",     "tooltip": "Nameplate fusion power",     "units": "MW",     "uilabel": "Fusion Power"   }
 #line 72 "/home/dean/Wisconsin/cyclus_fusion/Fusion/src/reactor.h"
@@ -292,13 +334,49 @@ class Reactor : public cyclus::Facility  {
 #line 104 "/home/dean/Wisconsin/cyclus_fusion/Fusion/src/reactor.h"
 
 
-    #pragma cyclus var {     "doc": "Fresh Fuel recipe",     "tooltip": "Fresh fuel recipe",     "uilabel": "Fuel Input Recipe"     }
+  #pragma cyclus var {   "doc": "Fresh Fuel recipe",   "tooltip": "Fresh fuel recipe",   "uilabel": "Fuel Input Recipe"   }
 #line 110 "/home/dean/Wisconsin/cyclus_fusion/Fusion/src/reactor.h"
-    std::string fuel_inrecipe;
+  std::string fuel_inrecipe;
   std::vector<int> cycpp_shape_fuel_inrecipe;
 
 #line 111 "/home/dean/Wisconsin/cyclus_fusion/Fusion/src/reactor.h"
 
+//-----------------------------------------------------------//
+//                     Materail Buffers                      //
+//-----------------------------------------------------------//
+#line 116 "/home/dean/Wisconsin/cyclus_fusion/Fusion/src/reactor.h"
+/*These must be defined after member variables for some reason?*/
+
+  //Tritium stored in the core of the reactor
+  #pragma cyclus var {"capacity" : "1000"} //capacity set to 1000 arbitrarily
+  cyclus::toolkit::ResBuf<cyclus::Material> tritium_core;
+  std::vector<int> cycpp_shape_tritium_core;
+
+#line 121 "/home/dean/Wisconsin/cyclus_fusion/Fusion/src/reactor.h"
+
+  //Tritium stored in the reserve system of the reactor
+  #pragma cyclus var {"capacity" : "1000"}
+  cyclus::toolkit::ResBuf<cyclus::Material> tritium_storage;
+  std::vector<int> cycpp_shape_tritium_storage;
+
+#line 125 "/home/dean/Wisconsin/cyclus_fusion/Fusion/src/reactor.h"
+
+  //helium-3 extracted from decayed tritium and stored by the reactor
+  #pragma cyclus var {"capacity" : "1000"}
+  cyclus::toolkit::ResBuf<cyclus::Material> helium_storage;
+  std::vector<int> cycpp_shape_helium_storage;
+
+#line 129 "/home/dean/Wisconsin/cyclus_fusion/Fusion/src/reactor.h"
+
+//-----------------------------------------------------------//
+//                     Fusion Functions                      //
+//-----------------------------------------------------------//
+
+  void Startup(double startup_inventory, double reserve_inventory);
+  void OperateReactor(double TBR, double burn_rate=55.8);
+  void DecayInventory(cyclus::toolkit::ResBuf<cyclus::Material> inventory);
+  void ExtractHelium(cyclus::Material::Ptr material);
+  void Record(std::string Status, double power);
 
   // And away we go!
 };

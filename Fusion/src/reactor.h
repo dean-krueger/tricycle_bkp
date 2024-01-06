@@ -59,9 +59,9 @@ class Reactor : public cyclus::Facility  {
   virtual void Tock();
 
 
-//----------------------------------------//
-//           State Variables              //
-//----------------------------------------//
+//-----------------------------------------------------------//
+//                     State Variables                       //
+//-----------------------------------------------------------//
 
   #pragma cyclus var { \
     "doc": "Nameplate fusion power of the reactor", \
@@ -102,13 +102,40 @@ class Reactor : public cyclus::Facility  {
   }
   std::string fuel_incommod;
 
-    #pragma cyclus var { \
-    "doc": "Fresh Fuel recipe", \
-    "tooltip": "Fresh fuel recipe", \
-    "uilabel": "Fuel Input Recipe" \
-    }
-    std::string fuel_inrecipe;
+  #pragma cyclus var { \
+  "doc": "Fresh Fuel recipe", \
+  "tooltip": "Fresh fuel recipe", \
+  "uilabel": "Fuel Input Recipe" \
+  }
+  std::string fuel_inrecipe;
 
+//-----------------------------------------------------------//
+//                     Materail Buffers                      //
+//-----------------------------------------------------------//
+
+/*These must be defined after member variables for some reason?*/
+
+  //Tritium stored in the core of the reactor
+  #pragma cyclus var {"capacity" : "1000"} //capacity set to 1000 arbitrarily
+  cyclus::toolkit::ResBuf<cyclus::Material> tritium_core;
+
+  //Tritium stored in the reserve system of the reactor
+  #pragma cyclus var {"capacity" : "1000"}
+  cyclus::toolkit::ResBuf<cyclus::Material> tritium_storage;
+
+  //helium-3 extracted from decayed tritium and stored by the reactor
+  #pragma cyclus var {"capacity" : "1000"}
+  cyclus::toolkit::ResBuf<cyclus::Material> helium_storage;
+
+//-----------------------------------------------------------//
+//                     Fusion Functions                      //
+//-----------------------------------------------------------//
+
+  void Startup(double startup_inventory, double reserve_inventory);
+  void OperateReactor(double TBR, double burn_rate=55.8);
+  void DecayInventory(cyclus::toolkit::ResBuf<cyclus::Material> inventory);
+  void ExtractHelium(cyclus::Material::Ptr material);
+  void Record(std::string Status, double power);
 
   // And away we go!
 };

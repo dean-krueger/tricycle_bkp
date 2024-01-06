@@ -21,7 +21,7 @@
   <!--Start of the Recipe Section-->
   <recipe>
     <name>T</name>
-    <basis>mass</basis>
+    <basis>atom</basis>
     <nuclide>
         <id>10030000</id>
         <comp>1</comp>
@@ -36,7 +36,7 @@
     <config>
       <Reactor>
         <fusion_power>300</fusion_power>
-        <TBR>1.05</TBR>
+        <TBR>0.95</TBR>
         <reserve_inventory>6</reserve_inventory>
         <startup_inventory>2.121</startup_inventory>
         <fuel_incommod>Tritium</fuel_incommod>

@@ -50,6 +50,9 @@ class Reactor : public cyclus::Facility  {
   /// A verbose printer for the Reactor
   virtual std::string str();
 
+  /// Set up policies and buffers:
+  virtual void EnterNotify();
+
   /// The handleTick function specific to the Reactor.
   /// @param time the time of the tick
   virtual void Tick();
@@ -95,20 +98,62 @@ class Reactor : public cyclus::Facility  {
   }
   double startup_inventory;
 
+
   #pragma cyclus var { \
-    "doc": "Fresh Fuel commodity", \
+    "doc": "Quantity of fuel which reactor tries to purchase", \
+    "tooltip": "Defaults to fill reserve inventory", \
+    "units": "kg", \
+    "uilabel": "Buy quantity" \
+  }
+  double buy_quantity;
+
+  #pragma cyclus var { \
+    "doc": "Fresh fuel commodity", \
     "tooltip": "Name of fuel commodity requested", \
-    "uilabel": "Fuel Input Commodity" \
+    "uilabel": "Fuel input commodity" \
   }
   std::string fuel_incommod;
 
+/* !Marked for deletion!
   #pragma cyclus var { \
-  "doc": "Fresh Fuel recipe", \
-  "tooltip": "Fresh fuel recipe", \
-  "uilabel": "Fuel Input Recipe" \
+    "doc": "Fresh fuel recipe", \
+    "tooltip": "Fresh fuel recipe", \
+    "uilabel": "Fuel Input Recipe" \
   }
   std::string fuel_inrecipe;
+*/
+  #pragma cyclus var { \
+    "default": 100.0, \
+    "doc": "Initial mass of full blanket material", \
+    "tooltip": "Only blanket material mass, not structural mass", \
+    "uilabel": "Initial Mass of Blanket" \
+  }
+  double blanket_size;
 
+  #pragma cyclus var { \
+    "doc": "Fresh fuel commodity", \
+    "tooltip": "Name of fuel commodity requested", \
+    "uilabel": "Fuel input commodity" \
+  }
+  std::string blanket_incommod;
+
+  #pragma cyclus var { \
+    "doc": "Fresh fuel commodity", \
+    "tooltip": "Name of fuel commodity requested", \
+    "uilabel": "Fuel input commodity" \
+  }
+  std::string blanket_inrecipe;
+/*
+
+    #pragma cyclus var { \
+    "doc": "Fresh Fuel recipe", \
+    "tooltip": "Fresh fuel recipe", \
+    "uilabel": "Fuel Input Recipe" \
+  }
+  std::string blanket_inrecipe;
+*/
+
+  bool operational = false; 
 //-----------------------------------------------------------//
 //                     Materail Buffers                      //
 //-----------------------------------------------------------//
@@ -127,15 +172,40 @@ class Reactor : public cyclus::Facility  {
   #pragma cyclus var {"capacity" : "1000"}
   cyclus::toolkit::ResBuf<cyclus::Material> helium_storage;
 
+  //blanket material
+  #pragma cyclus var {"capacity" : "1000"}
+  cyclus::toolkit::ResBuf<cyclus::Material> blanket;
+
+//-----------------------------------------------------------//
+//                   Buy and Sell Policies                   //
+//-----------------------------------------------------------//
+  cyclus::toolkit::MatlBuyPolicy fuel_startup_policy;
+  cyclus::toolkit::MatlBuyPolicy fuel_schedule_policy;
+  cyclus::toolkit::MatlBuyPolicy fuel_refill_policy;
+  cyclus::toolkit::MatlBuyPolicy blanket_startup_policy;
+
+
+  cyclus::toolkit::MatlSellPolicy sell_policy;
+
 //-----------------------------------------------------------//
 //                     Fusion Functions                      //
 //-----------------------------------------------------------//
 
-  void Startup(double startup_inventory, double reserve_inventory);
+  void Startup();
   void OperateReactor(double TBR, double burn_rate=55.8);
-  void DecayInventory(cyclus::toolkit::ResBuf<cyclus::Material> inventory);
+  void DecayInventory(cyclus::toolkit::ResBuf<cyclus::Material> &inventory);
+  void CombineInventory(cyclus::toolkit::ResBuf<cyclus::Material> &inventory);
   void ExtractHelium(cyclus::Material::Ptr material);
   void Record(std::string Status, double power);
+  void DepleteBlanket(double bred_tritium_mass);
+  cyclus::Material::Ptr BreedTritium(double fuel_usage, double TBR);
+
+
+
+//-----------------------------------------------------------//
+//                      Test Functions                       //
+//-----------------------------------------------------------//
+  void PrintComp(cyclus::Material::Ptr mat);
 
   // And away we go!
 };

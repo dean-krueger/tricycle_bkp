@@ -7,6 +7,7 @@
 
   <archetypes>
     <spec><lib>fusion</lib><name>Reactor</name></spec>
+    <spec><lib>cycamore</lib><name>Source</name></spec>
     <spec><lib>agents</lib><name>NullInst</name></spec>
     <spec><lib>agents</lib><name>NullRegion</name></spec>
   </archetypes>
@@ -14,6 +15,10 @@
     <!--Start of the Commodities Section-->
   <commodity>
     <name>Tritium</name>
+    <solution_priority>1.0</solution_priority>
+  </commodity>
+  <commodity>
+    <name>Enriched_Lithium</name>
     <solution_priority>1.0</solution_priority>
   </commodity>
 
@@ -28,6 +33,19 @@
     </nuclide>
   </recipe>
 
+  <recipe>
+    <name>Lithium</name>
+    <basis>atom</basis>
+    <nuclide>
+      <id>30060000</id>
+      <comp>0.3</comp>
+    </nuclide>
+    <nuclide>
+      <id>30070000</id>
+      <comp>0.7</comp>
+    </nuclide>
+  </recipe>
+
 
 
 
@@ -36,14 +54,39 @@
     <config>
       <Reactor>
         <fusion_power>300</fusion_power>
-        <TBR>0.95</TBR>
+        <TBR>1.02</TBR>
         <reserve_inventory>6</reserve_inventory>
         <startup_inventory>2.121</startup_inventory>
         <fuel_incommod>Tritium</fuel_incommod>
-        <fuel_inrecipe>T</fuel_inrecipe>
+        <buy_quantity>0.0</buy_quantity>
+        <blanket_incommod>Enriched_Lithium</blanket_incommod>
+        <blanket_inrecipe>Lithium</blanket_inrecipe>
+        <blanket_size>100</blanket_size>
+        <!--<lithium_enrichment>0.3</lithium_enrichment>-->
       </Reactor>
     </config>
   </facility>
+
+
+  <facility>
+    <name>CANDU</name>
+    <config>
+        <Source>
+            <outcommod>Tritium</outcommod>
+            <outrecipe>T</outrecipe>
+        </Source>
+    </config>
+</facility>
+
+<facility>
+  <name>Lithium Enrichment Facility</name>
+  <config>
+      <Source>
+          <outcommod>Enriched_Lithium</outcommod>
+          <outrecipe>Lithium</outrecipe>
+      </Source>
+  </config>
+</facility>
 
   <region>
     <name>OneRegion</name>
@@ -53,6 +96,14 @@
       <initialfacilitylist>
         <entry>
           <prototype>Test Reactor</prototype>
+          <number>1</number>
+        </entry>
+        <entry>
+          <prototype>CANDU</prototype>
+          <number>1</number>
+        </entry>
+        <entry>
+          <prototype>Lithium Enrichment Facility</prototype>
           <number>1</number>
         </entry>
       </initialfacilitylist>
